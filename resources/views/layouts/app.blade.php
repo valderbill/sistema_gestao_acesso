@@ -83,5 +83,9 @@
         document.getElementById('btnLogout').style.display = 'none';
     }
 </script>
+
+<!-- Aqui permitimos que cada view insira scripts específicos -->
+@yield('scripts')
+
 </body>
 </html>

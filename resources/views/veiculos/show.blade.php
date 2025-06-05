@@ -9,8 +9,6 @@
         <li><strong>Cor:</strong> {{ $veiculo->cor }}</li>
         <li><strong>Tipo:</strong> {{ $veiculo->tipo }}</li>
         <li><strong>Marca:</strong> {{ $veiculo->marca }}</li>
-        <li><strong>Localização:</strong> {{ $veiculo->localizacao }}</li>
-        <li><strong>Nome (Opcional):</strong> {{ $veiculo->nome }}</li>
         <li><strong>Acesso Liberado:</strong> {{ $veiculo->acesso->nome ?? 'N/A' }}</li>
     </ul>
 

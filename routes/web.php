@@ -39,3 +39,6 @@ Route::get('/painel/dados', [PainelController::class, 'dados'])->name('painel.da
 
 // Estacionamentos
 Route::resource('estacionamentos', EstacionamentoController::class);
+
+// Rota para buscar veículo por placa - Para preenchimento automático no formulário
+Route::get('/veiculos/buscar-por-placa/{placa}', [VeiculoController::class, 'buscarPorPlaca'])->name('veiculos.buscarPorPlaca');

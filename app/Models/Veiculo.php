@@ -15,8 +15,6 @@ class Veiculo extends Model
         'cor',
         'tipo',
         'marca',
-        'localizacao',
-        'nome',
         'acesso_id',
     ];
 
