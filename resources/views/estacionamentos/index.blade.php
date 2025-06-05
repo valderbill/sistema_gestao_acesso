@@ -13,9 +13,10 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nome</th>
-                <th>Endereço</th>
                 <th>Localização</th>
+                <th>Vagas Particulares</th>
+                <th>Vagas Oficiais</th>
+                <th>Vagas Motos</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -23,9 +24,10 @@
             @foreach($estacionamentos as $estacionamento)
             <tr>
                 <td>{{ $estacionamento->id }}</td>
-                <td>{{ $estacionamento->nome }}</td>
-                <td>{{ $estacionamento->endereco }}</td>
-                <td>{{ $estacionamento->localizacao->nome ?? 'Sem localização' }}</td>
+                <td>{{ $estacionamento->nome_localizacao ?? 'Sem localização' }}</td>
+                <td>{{ $estacionamento->vagas_particulares ?? 0 }}</td>
+                <td>{{ $estacionamento->vagas_oficiais ?? 0 }}</td>
+                <td>{{ $estacionamento->vagas_motos ?? 0 }}</td>
                 <td>
                     <a href="{{ route('estacionamentos.show', $estacionamento->id) }}" class="btn btn-info btn-sm">Ver</a>
                     <a href="{{ route('estacionamentos.edit', $estacionamento->id) }}" class="btn btn-warning btn-sm">Editar</a>

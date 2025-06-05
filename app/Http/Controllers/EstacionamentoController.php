@@ -3,29 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estacionamento;
-use App\Models\Localizacao;
 use Illuminate\Http\Request;
 
 class EstacionamentoController extends Controller
 {
     public function index()
     {
-        $estacionamentos = Estacionamento::with('localizacao')->get();
+        $estacionamentos = Estacionamento::all();
         return view('estacionamentos.index', compact('estacionamentos'));
     }
 
     public function create()
     {
-        $localizacoes = Localizacao::all();
-        return view('estacionamentos.create', compact('localizacoes'));
+        return view('estacionamentos.create');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'endereco' => 'required|string|max:255',
-            'localizacao_id' => 'required|exists:localizacoes,id',
+            'nome_localizacao' => 'required|string|max:100',
+            'vagas_particulares' => 'nullable|integer|min:0',
+            'vagas_oficiais' => 'nullable|integer|min:0',
+            'vagas_motos' => 'nullable|integer|min:0',
         ]);
 
         Estacionamento::create($validated);
@@ -35,22 +34,21 @@ class EstacionamentoController extends Controller
 
     public function show(Estacionamento $estacionamento)
     {
-        $estacionamento->load('localizacao');
         return view('estacionamentos.show', compact('estacionamento'));
     }
 
     public function edit(Estacionamento $estacionamento)
     {
-        $localizacoes = Localizacao::all();
-        return view('estacionamentos.edit', compact('estacionamento', 'localizacoes'));
+        return view('estacionamentos.edit', compact('estacionamento'));
     }
 
     public function update(Request $request, Estacionamento $estacionamento)
     {
         $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'endereco' => 'required|string|max:255',
-            'localizacao_id' => 'required|exists:localizacoes,id',
+            'nome_localizacao' => 'required|string|max:100',
+            'vagas_particulares' => 'nullable|integer|min:0',
+            'vagas_oficiais' => 'nullable|integer|min:0',
+            'vagas_motos' => 'nullable|integer|min:0',
         ]);
 
         $estacionamento->update($validated);

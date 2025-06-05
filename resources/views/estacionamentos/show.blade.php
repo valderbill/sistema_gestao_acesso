@@ -8,13 +8,16 @@
         <strong>ID:</strong> {{ $estacionamento->id }}
     </div>
     <div class="mb-3">
-        <strong>Nome:</strong> {{ $estacionamento->nome }}
+        <strong>Localização:</strong> {{ $estacionamento->nome_localizacao ?? 'Não informada' }}
     </div>
     <div class="mb-3">
-        <strong>Endereço:</strong> {{ $estacionamento->endereco }}
+        <strong>Vagas Particulares:</strong> {{ $estacionamento->vagas_particulares ?? 0 }}
     </div>
     <div class="mb-3">
-        <strong>Localização:</strong> {{ $estacionamento->localizacao->nome ?? 'Não informada' }}
+        <strong>Vagas Oficiais:</strong> {{ $estacionamento->vagas_oficiais ?? 0 }}
+    </div>
+    <div class="mb-3">
+        <strong>Vagas Motos:</strong> {{ $estacionamento->vagas_motos ?? 0 }}
     </div>
 
     <a href="{{ route('estacionamentos.index') }}" class="btn btn-secondary">Voltar</a>

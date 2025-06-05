@@ -8,25 +8,23 @@
         @csrf
 
         <div class="mb-3">
-            <label for="nome" class="form-label">Nome</label>
-            <input type="text" name="nome" class="form-control" value="{{ old('nome') }}" required>
+            <label for="nome_localizacao" class="form-label">Localização</label>
+            <input type="text" name="nome_localizacao" id="nome_localizacao" class="form-control" value="{{ old('nome_localizacao') }}" required>
         </div>
 
         <div class="mb-3">
-            <label for="endereco" class="form-label">Endereço</label>
-            <input type="text" name="endereco" class="form-control" value="{{ old('endereco') }}" required>
+            <label for="vagas_particulares" class="form-label">Vagas Particulares</label>
+            <input type="number" name="vagas_particulares" id="vagas_particulares" class="form-control" min="0" value="{{ old('vagas_particulares', 0) }}" required>
         </div>
 
         <div class="mb-3">
-            <label for="localizacao_id" class="form-label">Localização</label>
-            <select name="localizacao_id" class="form-select" required>
-                <option value="" disabled selected>Selecione uma localização</option>
-                @foreach ($localizacoes as $localizacao)
-                    <option value="{{ $localizacao->id }}" {{ old('localizacao_id') == $localizacao->id ? 'selected' : '' }}>
-                        {{ $localizacao->nome }}
-                    </option>
-                @endforeach
-            </select>
+            <label for="vagas_oficiais" class="form-label">Vagas Oficiais</label>
+            <input type="number" name="vagas_oficiais" id="vagas_oficiais" class="form-control" min="0" value="{{ old('vagas_oficiais', 0) }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="vagas_motos" class="form-label">Vagas Motos</label>
+            <input type="number" name="vagas_motos" id="vagas_motos" class="form-control" min="0" value="{{ old('vagas_motos', 0) }}" required>
         </div>
 
         <button type="submit" class="btn btn-primary">Salvar</button>

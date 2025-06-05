@@ -9,20 +9,10 @@ class Estacionamento extends Model
 {
     use HasFactory;
 
-    // Se a tabela for diferente de 'estacionamentos', especifique aqui
-    // protected $table = 'estacionamentos';
-
-    // Campos que podem ser preenchidos via mass-assignment
     protected $fillable = [
-        'nome',
-        'endereco',
-        'localizacao_id',
-        'capacidade',
+        'nome_localizacao',
+        'vagas_particulares',
+        'vagas_oficiais',
+        'vagas_motos',
     ];
-
-    // Relação com Localizacao (opcional, se quiser usar eager loading etc.)
-    public function localizacao()
-    {
-        return $this->belongsTo(Localizacao::class);
-    }
 }

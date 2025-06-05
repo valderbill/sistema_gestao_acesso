@@ -11,13 +11,13 @@ use App\Http\Controllers\OcorrenciaController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\PermissaoController;
 use App\Http\Controllers\PainelController;
-use App\Http\Controllers\LocalizacaoController;
 use App\Http\Controllers\EstacionamentoController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+// Recursos principais
 Route::resource('usuarios', UsuarioController::class);
 Route::resource('motoristas', MotoristaController::class);
 Route::resource('acessos_liberados', AcessoLiberadoController::class);
@@ -25,14 +25,17 @@ Route::resource('veiculos', VeiculoController::class);
 Route::resource('vagas', VagaController::class);
 Route::resource('registro_veiculos', RegistroVeiculoController::class);
 Route::resource('ocorrencias', OcorrenciaController::class);
+
+// Perfis e permissões com parâmetros personalizados
 Route::resource('perfis', PerfilController::class)->parameters([
     'perfis' => 'perfil'
 ]);
 Route::resource('permissoes', PermissaoController::class)->parameters([
     'permissoes' => 'permissao'
 ]);
+
+// Rota do painel
 Route::get('/painel/dados', [PainelController::class, 'dados'])->name('painel.dados');
-Route::resource('localizacoes', LocalizacaoController::class)->parameters([
-    'localizacoes' => 'localizacao',
-]);
+
+// Estacionamentos
 Route::resource('estacionamentos', EstacionamentoController::class);
