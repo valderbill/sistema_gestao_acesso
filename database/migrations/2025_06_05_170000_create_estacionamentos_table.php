@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('estacionamentos', function (Blueprint $table) {
             $table->id();
+            $table->string('nome_localizacao', 100);
             $table->timestamps();
         });
     }

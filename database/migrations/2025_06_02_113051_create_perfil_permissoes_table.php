@@ -20,7 +20,7 @@ return new class extends Migration
             $table->primary(['perfil_id', 'permissao_id']);
 
             // Foreign keys
-            $table->foreign('perfil_id')->references('id')->on('perfil')->onDelete('cascade');
+            $table->foreign('perfil_id')->references('id')->on('perfis')->onDelete('cascade');  // Corrigido para 'perfis'
             $table->foreign('permissao_id')->references('id')->on('permissoes')->onDelete('cascade');
 
             // Timestamps opcionais para registro de quando foi criado/atualizado
