@@ -14,6 +14,12 @@
         </div>
     @endif
 
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <form method="POST" action="{{ route('usuarios.update', $usuario->id) }}">
         @csrf
         @method('PUT')
@@ -39,8 +45,21 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Salvar</button>
-        <a href="{{ route('usuarios.index') }}" class="btn btn-secondary">Voltar</a>
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <a href="{{ route('usuarios.index') }}" class="btn btn-secondary">Voltar</a>
+            </div>
+
+            <form method="POST" action="{{ route('usuarios.resetSenha', $usuario->id) }}" style="margin:0;">
+                @csrf
+                {{-- Removido @method('PUT') --}}
+                <button type="submit" class="btn btn-danger"
+                    onclick="return confirm('Tem certeza que deseja redefinir a senha para a matrícula?')">
+                    Resetar Senha
+                </button>
+            </form>
+        </div>
     </form>
 </div>
 @endsection

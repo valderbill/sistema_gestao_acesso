@@ -23,6 +23,9 @@ Route::resource('usuarios', UsuarioController::class);
 // Nova rota para ativar/desativar usuário (toggle status)
 Route::put('/usuarios/{usuario}/toggle-status', [UsuarioController::class, 'toggleStatus'])->name('usuarios.toggleStatus');
 
+// Corrigido: Rota para resetar senha usando método POST
+Route::post('/usuarios/{id}/reset-senha', [UsuarioController::class, 'resetSenha'])->name('usuarios.resetSenha');
+
 Route::resource('motoristas', MotoristaController::class);
 Route::resource('acessos_liberados', AcessoLiberadoController::class);
 Route::resource('veiculos', VeiculoController::class);

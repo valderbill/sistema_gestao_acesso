@@ -75,15 +75,6 @@ class UsuarioController extends Controller
         return redirect()->route('usuarios.index')->with('success', 'Usuário atualizado com sucesso.');
     }
 
-    // Comentei para evitar exclusão real, use toggleStatus para ativar/desativar
-    /*
-    public function destroy(Usuario $usuario)
-    {
-        $usuario->delete();
-        return redirect()->route('usuarios.index')->with('success', 'Usuário excluído com sucesso.');
-    }
-    */
-
     // Atualiza status ativo/inativo
     public function toggleStatus(Request $request, $id)
     {
@@ -94,5 +85,22 @@ class UsuarioController extends Controller
         $usuario->save();
 
         return redirect()->route('usuarios.index')->with('success', 'Status do usuário atualizado com sucesso.');
+    }
+
+    // Nova função para resetar senha para a matrícula
+    public function resetSenha($id)
+    {
+        $usuario = Usuario::findOrFail($id);
+        $novaSenha = $usuario->matricula;
+
+        $usuario->senha = Hash::make($novaSenha);
+        $usuario->save();
+
+        // Redireciona para a listagem com mensagem e nova senha
+        return redirect()
+            ->route('usuarios.index')
+            ->with('success', 'Senha redefinida com sucesso para o usuário: ' . $usuario->nome)
+            ->with('novaSenha', $novaSenha)
+            ->with('usuarioId', $usuario->id);
     }
 }
