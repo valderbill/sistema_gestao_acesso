@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Veiculo;
 use App\Models\AcessoLiberado;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 
 class VeiculoController extends Controller
@@ -17,7 +18,11 @@ class VeiculoController extends Controller
     public function create()
     {
         $acessos = AcessoLiberado::all();
-        return view('veiculos.create', compact('acessos'));
+
+        // Buscar apenas usuários ativos
+        $usuariosAtivos = Usuario::where('ativo', true)->get();
+
+        return view('veiculos.create', compact('acessos', 'usuariosAtivos'));
     }
 
     public function store(Request $request)
@@ -62,11 +67,16 @@ class VeiculoController extends Controller
     public function edit(Veiculo $veiculo)
     {
         $acessos = AcessoLiberado::all();
-        return view('veiculos.edit', compact('veiculo', 'acessos'));
+
+        // Buscar apenas usuários ativos
+        $usuariosAtivos = Usuario::where('ativo', true)->get();
+
+        return view('veiculos.edit', compact('veiculo', 'acessos', 'usuariosAtivos'));
     }
 
     public function update(Request $request, Veiculo $veiculo)
     {
+        // Forçar maiúsculas nos campos antes da validação
         $request->merge([
             'placa' => $request->has('placa') ? strtoupper($request->placa) : null,
             'modelo' => $request->has('modelo') ? strtoupper($request->modelo) : null,

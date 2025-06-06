@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
+    // Listagem completa para o administrador, mostra todos (ativos e inativos)
     public function index()
     {
         $usuarios = Usuario::with('perfil')->get();
@@ -27,7 +28,7 @@ class UsuarioController extends Controller
             'nome' => 'required|string|max:255',
             'matricula' => 'required|string|max:100|unique:usuarios,matricula',
             'senha' => 'required|string|min:6',
-            'perfil_id' => 'required|exists:perfis,id', 
+            'perfil_id' => 'required|exists:perfis,id',
         ]);
 
         Usuario::create([
@@ -35,6 +36,7 @@ class UsuarioController extends Controller
             'matricula' => $request->matricula,
             'senha' => Hash::make($request->senha),
             'perfil_id' => $request->perfil_id,
+            'ativo' => true,
         ]);
 
         return redirect()->route('usuarios.index')->with('success', 'Usuário criado com sucesso.');
@@ -56,7 +58,7 @@ class UsuarioController extends Controller
         $request->validate([
             'nome' => 'required|string|max:255',
             'matricula' => 'required|string|max:100|unique:usuarios,matricula,' . $usuario->id,
-            'perfil_id' => 'required|exists:perfis,id', 
+            'perfil_id' => 'required|exists:perfis,id',
         ]);
 
         $usuario->nome = $request->nome;
@@ -64,9 +66,7 @@ class UsuarioController extends Controller
         $usuario->perfil_id = $request->perfil_id;
 
         if ($request->filled('senha')) {
-            $request->validate([
-                'senha' => 'string|min:6',
-            ]);
+            $request->validate(['senha' => 'string|min:6']);
             $usuario->senha = Hash::make($request->senha);
         }
 
@@ -75,9 +75,24 @@ class UsuarioController extends Controller
         return redirect()->route('usuarios.index')->with('success', 'Usuário atualizado com sucesso.');
     }
 
+    // Comentei para evitar exclusão real, use toggleStatus para ativar/desativar
+    /*
     public function destroy(Usuario $usuario)
     {
         $usuario->delete();
         return redirect()->route('usuarios.index')->with('success', 'Usuário excluído com sucesso.');
+    }
+    */
+
+    // Atualiza status ativo/inativo
+    public function toggleStatus(Request $request, $id)
+    {
+        $request->validate(['ativo' => 'required|boolean']);
+
+        $usuario = Usuario::findOrFail($id);
+        $usuario->ativo = $request->input('ativo');
+        $usuario->save();
+
+        return redirect()->route('usuarios.index')->with('success', 'Status do usuário atualizado com sucesso.');
     }
 }

@@ -13,10 +13,10 @@ class RegistroVeiculoController extends Controller
     public function index()
     {
         $registros = RegistroVeiculo::with([
-            'veiculo', 
-            'motoristaEntrada', 
-            'motoristaSaida', 
-            'usuarioLogado', 
+            'veiculo',
+            'motoristaEntrada',
+            'motoristaSaida',
+            'usuarioLogado',
             'usuarioSaida'
         ])->paginate(10);
 
@@ -26,8 +26,12 @@ class RegistroVeiculoController extends Controller
     public function create()
     {
         $veiculos = Veiculo::all();
+
+        // Motoristas sem filtro "ativo" para evitar erro
         $motoristas = Motorista::all();
-        $usuarios = Usuario::all();
+
+        // Somente usuários ativos (tem coluna 'ativo')
+        $usuarios = Usuario::where('ativo', true)->get();
 
         return view('registro_veiculos.create', compact('veiculos', 'motoristas', 'usuarios'));
     }
@@ -54,10 +58,10 @@ class RegistroVeiculoController extends Controller
     public function show($id)
     {
         $registro = RegistroVeiculo::with([
-            'veiculo', 
-            'motoristaEntrada', 
-            'motoristaSaida', 
-            'usuarioLogado', 
+            'veiculo',
+            'motoristaEntrada',
+            'motoristaSaida',
+            'usuarioLogado',
             'usuarioSaida'
         ])->findOrFail($id);
 
@@ -68,8 +72,12 @@ class RegistroVeiculoController extends Controller
     {
         $registro = RegistroVeiculo::findOrFail($id);
         $veiculos = Veiculo::all();
+
+        // Motoristas sem filtro "ativo"
         $motoristas = Motorista::all();
-        $usuarios = Usuario::all();
+
+        // Somente usuários ativos
+        $usuarios = Usuario::where('ativo', true)->get();
 
         return view('registro_veiculos.edit', compact('registro', 'veiculos', 'motoristas', 'usuarios'));
     }

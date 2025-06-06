@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Cadastrar Usuário</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
 <div class="container mt-5">
     <h1>Cadastrar Usuário</h1>
 
@@ -24,12 +19,12 @@
 
         <div class="mb-3">
             <label for="nome" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="nome" name="nome" required>
+            <input type="text" class="form-control" id="nome" name="nome" value="{{ old('nome') }}" required>
         </div>
 
         <div class="mb-3">
             <label for="matricula" class="form-label">Matrícula</label>
-            <input type="text" class="form-control" id="matricula" name="matricula" required>
+            <input type="text" class="form-control" id="matricula" name="matricula" value="{{ old('matricula') }}" required>
         </div>
 
         <div class="mb-3">
@@ -42,7 +37,9 @@
             <select class="form-select" id="perfil_id" name="perfil_id" required>
                 <option value="">Selecione um perfil</option>
                 @foreach($perfis as $perfil)
-                    <option value="{{ $perfil->id }}">{{ $perfil->nome }}</option>
+                    <option value="{{ $perfil->id }}" {{ old('perfil_id') == $perfil->id ? 'selected' : '' }}>
+                        {{ $perfil->nome }}
+                    </option>
                 @endforeach
             </select>
         </div>
@@ -51,5 +48,4 @@
         <a href="{{ route('usuarios.index') }}" class="btn btn-secondary">Voltar</a>
     </form>
 </div>
-</body>
-</html>
+@endsection

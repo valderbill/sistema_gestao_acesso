@@ -1,40 +1,44 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Usuários</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
 <div class="container mt-5">
     <h1>Lista de Usuários</h1>
     <a href="{{ route('usuarios.create') }}" class="btn btn-success mb-3">Cadastrar Novo</a>
 
-    <table class="table table-bordered">
+    <table class="table table-bordered" style="table-layout: fixed;">
         <thead>
             <tr>
-                <th>Nome</th>
-                <th>Matrícula</th>
-                <th>Perfil</th>
-                <th>Ações</th>
+                <th style="width: 35%;">Nome</th> <!-- maior espaço -->
+                <th style="width: 15%; padding: 0.3rem;">Matrícula</th>
+                <th style="width: 15%; padding: 0.3rem;">Perfil</th>
+                <th style="width: 20%; padding: 0.3rem;">Ações</th>
+                <th style="width: 15%; padding: 0.3rem;">Status</th>
             </tr>
         </thead>
         <tbody>
             @foreach($usuarios as $usuario)
                 <tr>
-                    <td>{{ $usuario->nome }}</td>
-                    <td>{{ $usuario->matricula }}</td>
-                    <td>{{ $usuario->perfil->nome ?? 'N/A' }}</td>
-                    <td>
-                        <a href="{{ route('usuarios.show', $usuario->id) }}" class="btn btn-info btn-sm">Ver</a>
-                        <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-warning btn-sm">Editar</a>
-                        <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" style="display:inline;">
+                    <td style="padding: 0.5rem;">{{ $usuario->nome }}</td>
+                    <td style="padding: 0.3rem; white-space: nowrap;">{{ $usuario->matricula }}</td>
+                    <td style="padding: 0.3rem; white-space: nowrap;">{{ $usuario->perfil->nome ?? 'N/A' }}</td>
+                    <td style="padding: 0.3rem; white-space: nowrap;">
+                        <a href="{{ route('usuarios.show', $usuario->id) }}" class="btn btn-info btn-sm px-2 py-1">Ver</a>
+                        <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-warning btn-sm px-2 py-1">Editar</a>
+                    </td>
+                    <td style="padding: 0.3rem; white-space: nowrap;">
+                        <form action="{{ route('usuarios.toggleStatus', $usuario->id) }}" method="POST" style="display:inline;">
                             @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Tem certeza que deseja excluir?')">
-                                Excluir
-                            </button>
+                            @method('PUT')
+                            <div class="form-check form-check-inline" style="margin-bottom: 0;">
+                                <input class="form-check-input" type="radio" name="ativo" value="1"
+                                    onchange="this.form.submit()" {{ $usuario->ativo ? 'checked' : '' }}>
+                                <label class="form-check-label" style="font-size: 0.85rem; margin-right: 0.5rem;">Ativo</label>
+                            </div>
+                            <div class="form-check form-check-inline" style="margin-bottom: 0;">
+                                <input class="form-check-input" type="radio" name="ativo" value="0"
+                                    onchange="this.form.submit()" {{ !$usuario->ativo ? 'checked' : '' }}>
+                                <label class="form-check-label" style="font-size: 0.85rem;">Inativo</label>
+                            </div>
                         </form>
                     </td>
                 </tr>
@@ -42,5 +46,4 @@
         </tbody>
     </table>
 </div>
-</body>
-</html>
+@endsection

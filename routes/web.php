@@ -19,6 +19,10 @@ Route::get('/', function () {
 
 // Recursos principais
 Route::resource('usuarios', UsuarioController::class);
+
+// Nova rota para ativar/desativar usuário (toggle status)
+Route::put('/usuarios/{usuario}/toggle-status', [UsuarioController::class, 'toggleStatus'])->name('usuarios.toggleStatus');
+
 Route::resource('motoristas', MotoristaController::class);
 Route::resource('acessos_liberados', AcessoLiberadoController::class);
 Route::resource('veiculos', VeiculoController::class);
