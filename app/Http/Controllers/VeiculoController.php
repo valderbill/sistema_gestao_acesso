@@ -6,11 +6,13 @@ use App\Models\Veiculo;
 use App\Models\AcessoLiberado;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VeiculoController extends Controller
 {
     public function index()
     {
+        // Carrega veículos com o relacionamento 'acesso' para evitar N+1
         $veiculos = Veiculo::with('acesso')->get();
         return view('veiculos.index', compact('veiculos'));
     }
@@ -18,24 +20,33 @@ class VeiculoController extends Controller
     public function create()
     {
         $acessos = AcessoLiberado::all();
+<<<<<<< HEAD
 
         // Buscar apenas usuários ativos
         $usuariosAtivos = Usuario::where('ativo', true)->get();
 
         return view('veiculos.create', compact('acessos', 'usuariosAtivos'));
+=======
+        $usuarios = Usuario::where('ativo', true)->get();
+
+        return view('veiculos.create', compact('acessos', 'usuarios'));
+>>>>>>> 4718903 (10/06 correções)
     }
 
     public function store(Request $request)
     {
-        // Forçar maiúsculas nos campos antes da validação
+        // Normaliza campos para maiúsculas
         $request->merge([
-            'placa' => $request->has('placa') ? strtoupper($request->placa) : null,
-            'modelo' => $request->has('modelo') ? strtoupper($request->modelo) : null,
-            'cor' => $request->has('cor') ? strtoupper($request->cor) : null,
-            'tipo' => $request->has('tipo') ? strtoupper($request->tipo) : null,
-            'marca' => $request->has('marca') ? strtoupper($request->marca) : null,
+            'placa' => strtoupper($request->placa),
+            'modelo' => strtoupper($request->modelo),
+            'cor' => strtoupper($request->cor),
+            'tipo' => strtoupper($request->tipo),
+            'marca' => strtoupper($request->marca),
+            // Se usuário estiver logado, preenche id, senão null
+            'usuario_logado_id' => auth()->check() ? auth()->id() : null,
         ]);
 
+        // Validação dos dados, usuario_logado_id é opcional (nullable)
         $request->validate([
             'placa' => [
                 'required',
@@ -48,11 +59,21 @@ class VeiculoController extends Controller
             'tipo' => 'required|in:OFICIAL,PARTICULAR,MOTO',
             'marca' => 'required|string|max:50',
             'acesso_id' => 'nullable|exists:acessos_liberados,id',
+            'usuario_logado_id' => 'nullable|exists:usuarios,id',
         ], [
             'placa.regex' => 'Formato inválido para placa. Use ABC1234 (antigo) ou ABC1D23 (Mercosul).',
         ]);
 
-        $data = $request->only(['placa', 'modelo', 'cor', 'tipo', 'marca', 'acesso_id']);
+        // Captura somente os dados necessários para o create
+        $data = $request->only([
+            'placa',
+            'modelo',
+            'cor',
+            'tipo',
+            'marca',
+            'acesso_id',
+            'usuario_logado_id',
+        ]);
 
         Veiculo::create($data);
 
@@ -67,22 +88,30 @@ class VeiculoController extends Controller
     public function edit(Veiculo $veiculo)
     {
         $acessos = AcessoLiberado::all();
+<<<<<<< HEAD
 
         // Buscar apenas usuários ativos
         $usuariosAtivos = Usuario::where('ativo', true)->get();
 
         return view('veiculos.edit', compact('veiculo', 'acessos', 'usuariosAtivos'));
+=======
+        $usuarios = Usuario::where('ativo', true)->get();
+
+        return view('veiculos.edit', compact('veiculo', 'acessos', 'usuarios'));
+>>>>>>> 4718903 (10/06 correções)
     }
 
     public function update(Request $request, Veiculo $veiculo)
     {
         // Forçar maiúsculas nos campos antes da validação
         $request->merge([
-            'placa' => $request->has('placa') ? strtoupper($request->placa) : null,
-            'modelo' => $request->has('modelo') ? strtoupper($request->modelo) : null,
-            'cor' => $request->has('cor') ? strtoupper($request->cor) : null,
-            'tipo' => $request->has('tipo') ? strtoupper($request->tipo) : null,
-            'marca' => $request->has('marca') ? strtoupper($request->marca) : null,
+            'placa' => strtoupper($request->placa),
+            'modelo' => strtoupper($request->modelo),
+            'cor' => strtoupper($request->cor),
+            'tipo' => strtoupper($request->tipo),
+            'marca' => strtoupper($request->marca),
+            // Mesmo controle para update, se quiser
+            'usuario_logado_id' => auth()->check() ? auth()->id() : null,
         ]);
 
         $request->validate([
@@ -97,11 +126,20 @@ class VeiculoController extends Controller
             'tipo' => 'required|in:OFICIAL,PARTICULAR,MOTO',
             'marca' => 'required|string|max:50',
             'acesso_id' => 'nullable|exists:acessos_liberados,id',
+            'usuario_logado_id' => 'nullable|exists:usuarios,id',
         ], [
             'placa.regex' => 'Formato inválido para placa. Use ABC1234 (antigo) ou ABC1D23 (Mercosul).',
         ]);
 
-        $data = $request->only(['placa', 'modelo', 'cor', 'tipo', 'marca', 'acesso_id']);
+        $data = $request->only([
+            'placa',
+            'modelo',
+            'cor',
+            'tipo',
+            'marca',
+            'acesso_id',
+            'usuario_logado_id',
+        ]);
 
         $veiculo->update($data);
 
@@ -110,16 +148,20 @@ class VeiculoController extends Controller
 
     public function destroy(Veiculo $veiculo)
     {
+        // Verifica se há ocorrências relacionadas antes de deletar
+        $temOcorrencias = DB::table('ocorrencias')->where('placa', $veiculo->placa)->exists();
+
+        if ($temOcorrencias) {
+            return redirect()->route('veiculos.index')
+                ->with('error', 'O veículo não pode ser deletado porque possui ocorrências geradas.');
+        }
+
         $veiculo->delete();
-        return redirect()->route('veiculos.index')->with('success', 'Veículo excluído com sucesso.');
+
+        return redirect()->route('veiculos.index')
+            ->with('success', 'Veículo excluído com sucesso.');
     }
 
-    /**
-     * Busca veículo pelo número da placa (para preenchimento automático no formulário via AJAX).
-     *
-     * @param string $placa
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function buscarPorPlaca($placa)
     {
         $placa = strtoupper($placa);
@@ -135,7 +177,7 @@ class VeiculoController extends Controller
                     'tipo' => $veiculo->tipo,
                     'marca' => $veiculo->marca,
                     'acesso_id' => $veiculo->acesso_id,
-                ]
+                ],
             ]);
         }
 

@@ -49,10 +49,6 @@
             <th>Usuário Saída</th>
             <td>{{ $registro_veiculo->usuarioSaida->nome ?? 'N/A' }}</td>
         </tr>
-        <tr>
-            <th>Localização</th>
-            <td>{{ $registro_veiculo->localizacao }}</td>
-        </tr>
     </table>
 
     <a href="{{ route('registro_veiculos.index') }}" class="btn btn-secondary">Voltar</a>

@@ -2,6 +2,20 @@
 
 @section('content')
     <h1>Lista de Veículos</h1>
+
+    {{-- Mensagens de sucesso e erro --}}
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <a href="{{ route('veiculos.create') }}" class="btn btn-primary mb-3">Cadastrar Novo Veículo</a>
 
     <table class="table">

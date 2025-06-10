@@ -11,12 +11,15 @@
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
+<<<<<<< HEAD
         </div>
     @endif
 
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
+=======
+>>>>>>> 4718903 (10/06 correções)
         </div>
     @endif
 
@@ -38,7 +41,11 @@
             <label for="perfil_id" class="form-label">Perfil</label>
             <select class="form-select" id="perfil_id" name="perfil_id" required>
                 @foreach($perfis as $perfil)
+<<<<<<< HEAD
                     <option value="{{ $perfil->id }}" {{ old('perfil_id', $usuario->perfil_id) == $perfil->id ? 'selected' : '' }}>
+=======
+                    <option value="{{ $perfil->id }}" {{ (old('perfil_id', $usuario->perfil_id) == $perfil->id) ? 'selected' : '' }}>
+>>>>>>> 4718903 (10/06 correções)
                         {{ $perfil->nome }}
                     </option>
                 @endforeach

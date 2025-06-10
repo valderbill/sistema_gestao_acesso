@@ -21,7 +21,7 @@ class EstacionamentoController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nome_localizacao' => 'required|string|max:100',
+            'localizacao' => 'required|string|max:100',
             'vagas_particulares' => 'nullable|integer|min:0',
             'vagas_oficiais' => 'nullable|integer|min:0',
             'vagas_motos' => 'nullable|integer|min:0',
@@ -45,7 +45,7 @@ class EstacionamentoController extends Controller
     public function update(Request $request, Estacionamento $estacionamento)
     {
         $validated = $request->validate([
-            'nome_localizacao' => 'required|string|max:100',
+            'localizacao' => 'required|string|max:100',
             'vagas_particulares' => 'nullable|integer|min:0',
             'vagas_oficiais' => 'nullable|integer|min:0',
             'vagas_motos' => 'nullable|integer|min:0',

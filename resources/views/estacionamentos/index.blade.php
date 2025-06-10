@@ -24,7 +24,7 @@
             @foreach($estacionamentos as $estacionamento)
             <tr>
                 <td>{{ $estacionamento->id }}</td>
-                <td>{{ $estacionamento->nome_localizacao ?? 'Sem localização' }}</td>
+                <td>{{ $estacionamento->localizacao ?? 'Sem localização' }}</td>
                 <td>{{ $estacionamento->vagas_particulares ?? 0 }}</td>
                 <td>{{ $estacionamento->vagas_oficiais ?? 0 }}</td>
                 <td>{{ $estacionamento->vagas_motos ?? 0 }}</td>

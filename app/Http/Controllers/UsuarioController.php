@@ -9,10 +9,15 @@ use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
+<<<<<<< HEAD
     // Listagem completa para o administrador, mostra todos (ativos e inativos)
+=======
+    // Lista usuários para o administrador — aqui você mostra TODOS, ativo ou inativo,
+    // para que possa gerenciar (editar, ativar/inativar)
+>>>>>>> 4718903 (10/06 correções)
     public function index()
     {
-        $usuarios = Usuario::with('perfil')->get();
+        $usuarios = Usuario::with('perfil')->get(); // TODOS os usuários, sem filtro
         return view('usuarios.index', compact('usuarios'));
     }
 
@@ -29,6 +34,10 @@ class UsuarioController extends Controller
             'matricula' => 'required|string|max:100|unique:usuarios,matricula',
             'senha' => 'required|string|min:6',
             'perfil_id' => 'required|exists:perfis,id',
+<<<<<<< HEAD
+=======
+            'ativo' => 'required|boolean',
+>>>>>>> 4718903 (10/06 correções)
         ]);
 
         Usuario::create([
@@ -36,7 +45,11 @@ class UsuarioController extends Controller
             'matricula' => $request->matricula,
             'senha' => Hash::make($request->senha),
             'perfil_id' => $request->perfil_id,
+<<<<<<< HEAD
             'ativo' => true,
+=======
+            'ativo' => $request->ativo,
+>>>>>>> 4718903 (10/06 correções)
         ]);
 
         return redirect()->route('usuarios.index')->with('success', 'Usuário criado com sucesso.');
@@ -59,11 +72,16 @@ class UsuarioController extends Controller
             'nome' => 'required|string|max:255',
             'matricula' => 'required|string|max:100|unique:usuarios,matricula,' . $usuario->id,
             'perfil_id' => 'required|exists:perfis,id',
+<<<<<<< HEAD
+=======
+            'ativo' => 'required|boolean',
+>>>>>>> 4718903 (10/06 correções)
         ]);
 
         $usuario->nome = $request->nome;
         $usuario->matricula = $request->matricula;
         $usuario->perfil_id = $request->perfil_id;
+        $usuario->ativo = $request->ativo;
 
         if ($request->filled('senha')) {
             $request->validate(['senha' => 'string|min:6']);
@@ -75,6 +93,7 @@ class UsuarioController extends Controller
         return redirect()->route('usuarios.index')->with('success', 'Usuário atualizado com sucesso.');
     }
 
+<<<<<<< HEAD
     // Atualiza status ativo/inativo
     public function toggleStatus(Request $request, $id)
     {
@@ -102,5 +121,20 @@ class UsuarioController extends Controller
             ->with('success', 'Senha redefinida com sucesso para o usuário: ' . $usuario->nome)
             ->with('novaSenha', $novaSenha)
             ->with('usuarioId', $usuario->id);
+=======
+    // Remover exclusão conforme solicitado
+    // public function destroy(Usuario $usuario) {}
+
+    // Alterna status conforme o form (input radio)
+    public function alternarStatus(Request $request, Usuario $usuario)
+    {
+        $ativo = $request->input('ativo');
+        $usuario->ativo = $ativo == '1';
+        $usuario->save();
+
+        $status = $usuario->ativo ? 'ativado' : 'inativado';
+
+        return redirect()->route('usuarios.index')->with('success', "Usuário {$status} com sucesso.");
+>>>>>>> 4718903 (10/06 correções)
     }
 }

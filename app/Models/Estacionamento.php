@@ -10,7 +10,7 @@ class Estacionamento extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nome_localizacao',
+        'localizacao',         
         'vagas_particulares',
         'vagas_oficiais',
         'vagas_motos',

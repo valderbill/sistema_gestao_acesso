@@ -1,36 +1,68 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="csrf-token" content="{{ csrf_token() }}" />
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Controle Estacionamento</title>
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net" />
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('layouts.navigation')
+    <style>
+        .avatar {
+            width: 50px;
+            height: auto;
+            border-radius: 10px;
+            object-fit: contain;
+            background-color: #f8f9fa;
+            display: block;
+        }
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
+        .message-icon {
+            font-size: 1.8rem;
+            color: #0d6efd;
+        }
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot ?? '' }}
-            </main>
+        .message-counter {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+    <div class="container d-flex justify-content-between align-items-center">
+        <!-- Logo à esquerda -->
+        <div>
+            <img src="{{ asset('images/foto.png') }}" alt="Logo" class="avatar" />
+        </div>
+
+        <!-- À direita: Mensagens + Login / Logout -->
+        <div class="d-flex align-items-center gap-4">
+            <!-- Link para mensagens com ícone e contador -->
+            <a href="{{ url('/mensagens') }}" class="position-relative text-decoration-none">
+                <i class="bi bi-envelope-fill message-icon"></i>
+                <span class="message-counter" id="messageCount">3</span>
+            </a>
+
+            <!-- Botões de login/logout -->
+            <div>
+                <button class="btn btn-success btn-sm me-2" id="btnLogin">Login</button>
+                <button class="btn btn-danger btn-sm" id="btnLogout">Logout</button>
+            </div>
         </div>
     </body>
 </html>

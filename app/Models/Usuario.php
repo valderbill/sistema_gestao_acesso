@@ -16,13 +16,14 @@ class Usuario extends Model
     protected $fillable = [
         'nome',
         'matricula',
-        'senha',  // Usar para senha (criptografada)
+        'senha',  // senha criptografada
         'perfil_id',
+        'ativo',  // novo campo para status ativo/inativo
     ];
 
     // Campos ocultos em JSON
     protected $hidden = [
-        'password',
+        'senha',
     ];
 
     // Relação com Perfil

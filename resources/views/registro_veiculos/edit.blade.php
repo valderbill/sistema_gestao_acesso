@@ -113,11 +113,6 @@
             </select>
         </div>
 
-        <div class="mb-3">
-            <label for="localizacao" class="form-label">Localização</label>
-            <input type="text" name="localizacao" id="localizacao" class="form-control" value="{{ old('localizacao', $registro_veiculo->localizacao) }}" required maxlength="50">
-        </div>
-
         <button type="submit" class="btn btn-primary">Atualizar</button>
         <a href="{{ route('registro_veiculos.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>

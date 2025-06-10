@@ -9,8 +9,8 @@
         @method('PUT')
 
         <div class="mb-3">
-            <label for="nome_localizacao" class="form-label">Localização</label>
-            <input type="text" name="nome_localizacao" id="nome_localizacao" class="form-control" value="{{ old('nome_localizacao', $estacionamento->nome_localizacao) }}" required>
+            <label for="localizacao" class="form-label">Localização</label>
+            <input type="text" name="localizacao" id="localizacao" class="form-control" value="{{ old('localizacao', $estacionamento->localizacao) }}" required>
         </div>
 
         <div class="mb-3">

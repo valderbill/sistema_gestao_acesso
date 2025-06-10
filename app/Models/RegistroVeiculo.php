@@ -18,12 +18,10 @@ class RegistroVeiculo extends Model
         'motorista_saida_id',
         'horario_entrada',
         'horario_saida',
-        'usuario_logado_id',
-        'usuario_saida_id',
-        'localizacao',
+        // 'usuario_logado_id',   // removido porque não existe mais no banco
+        'usuario_saida_id',     // mantido se existir no banco
     ];
 
-    // relações (exemplo)
     public function veiculo()
     {
         return $this->belongsTo(Veiculo::class, 'placa', 'placa');
@@ -39,11 +37,7 @@ class RegistroVeiculo extends Model
         return $this->belongsTo(Motorista::class, 'motorista_saida_id');
     }
 
-    public function usuarioLogado()
-    {
-        return $this->belongsTo(Usuario::class, 'usuario_logado_id');
-    }
-
+    
     public function usuarioSaida()
     {
         return $this->belongsTo(Usuario::class, 'usuario_saida_id');

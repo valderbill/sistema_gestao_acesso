@@ -16,7 +16,11 @@ return new class extends Migration
             $table->string('nome');
             $table->string('matricula');
             $table->string('senha');
+<<<<<<< HEAD
             $table->foreignId('perfil_id')->constrained('perfis')->onDelete('cascade');
+=======
+            $table->foreignId('perfil_id')->constrained('perfis')->onDelete('cascade'); // <-- CORRIGIDO AQUI
+>>>>>>> 4718903 (10/06 correções)
             $table->timestamps();
         });
     }

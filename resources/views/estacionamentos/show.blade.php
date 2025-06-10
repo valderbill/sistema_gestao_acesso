@@ -8,7 +8,7 @@
         <strong>ID:</strong> {{ $estacionamento->id }}
     </div>
     <div class="mb-3">
-        <strong>Localização:</strong> {{ $estacionamento->nome_localizacao ?? 'Não informada' }}
+        <strong>Localização:</strong> {{ $estacionamento->localizacao ?? 'Não informada' }}
     </div>
     <div class="mb-3">
         <strong>Vagas Particulares:</strong> {{ $estacionamento->vagas_particulares ?? 0 }}
